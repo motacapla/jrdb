@@ -33,7 +33,7 @@ text_data = loader.load('file_path/SEDyymmdd.txt')
 
 # parse
 parser = parse.JrdbDataParser()
-df = parser.parse(text_data, 'SED')   # return pandas DataFrame
+df = parser.parse(text_data, 'SED', is_japanese=True)   # return pandas DataFrame
 ```
 
 
