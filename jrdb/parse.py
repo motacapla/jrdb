@@ -9,13 +9,13 @@ class JrdbDataParser():
         self._config_path = 'jrdb/config/'
         self._loader = load.FileLoader()
 
-    def parse(self, text_data, data_type):
+    def parse(self, text_data, data_type, is_japanese):
         config_json_name = self._config_path + data_type + '.json'
         config_json = self._loader.load(config_json_name)
         converter = JrdbTextConverterIntoDataFrame(text_data, config_json)
         df = converter.convert_text_into_dataframe()
         formater = JrdbDataFrameFormatter(df, config_json)
-        return formater.format_dataframe()
+        return formater.format_dataframe(is_japanese)
 
 class JrdbTextConverterIntoDataFrame():
     def __init__(self, text_data, config_json):
@@ -131,13 +131,16 @@ class JrdbDataFrameFormatter():
         self._config_json    = config_json
         self._keys           = config_json.keys()
 
-    def format_dataframe(self):
+    def format_dataframe(self, is_japanese):
         ret_dataframe = self._data.copy()
         for key in self._keys:
             target_series = JrdbCorrectStrSeries(self._data[key])
             target_var_function = self._config_json[key]['var_function']
             target_var_type = self._config_json[key]['var_type']
             ret_dataframe[key] = target_series.correct_str_series(target_var_function, target_var_type)
+            if is_japanese:
+                ret_dataframe[self._config_json[key]['col_name']] = ret_dataframe[key]
+                ret_dataframe = ret_dataframe.drop(columns=key)
         return ret_dataframe
 
 class JrdbCorrectStrSeries():
