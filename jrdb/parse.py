@@ -177,7 +177,11 @@ class JrdbCorrectStrSeries():
 
     def _convert_var_type(self, series, var_type):
         ret_series = series
-        type_converted_series = ret_series.fillna(0).astype(var_type)
+        type_converted_series = ret_series.fillna(0)
+        try:
+            type_converted_series = type_converted_series.astype(var_type)
+        except:
+            pass
         ret_series.loc[ret_series.notnull()] = type_converted_series
         return ret_series
         
