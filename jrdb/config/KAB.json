@@ -1,12 +1,4 @@
 {
-    "open_key" : {
-        "col_name" : "開催キー",
-        "start_ind_b" : 0,
-		"end_ind_b" : 6,
-        "length" : 6,
-        "var_type" : "str",
-		"var_function" : ""
-    },
     "race_course_code" : {
         "col_name" : "場コード",
         "start_ind_b" : 0,
