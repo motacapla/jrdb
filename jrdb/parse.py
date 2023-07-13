@@ -2,7 +2,7 @@ import re
 import numpy as np
 import pandas as pd
 
-from jrdb import load
+from jrdb.jrdb import load
 
 class JrdbDataParser():
     def __init__(self):
