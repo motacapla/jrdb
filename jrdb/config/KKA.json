@@ -244,7 +244,7 @@
         "start_ind_b" : 286,
 		"end_ind_b" : 289,
         "length" : 3,
-        "var_type" : "int",
+        "var_type" : "float",
 		"var_function" : "remove_blank_series"
     },
     "sire_offspring_dirt_in_second_rate" : {
@@ -252,7 +252,7 @@
         "start_ind_b" : 289,
 		"end_ind_b" : 292,
         "length" : 3,
-        "var_type" : "int",
+        "var_type" : "float",
 		"var_function" : "remove_blank_series"
     },
     "sire_offspring_in_second_average_distance" : {
@@ -268,7 +268,7 @@
         "start_ind_b" : 296,
 		"end_ind_b" : 299,
         "length" : 3,
-        "var_type" : "int",
+        "var_type" : "float",
 		"var_function" : "remove_blank_series"
     },
     "mare_sire_offspring_dirt_in_second_rate" : {
@@ -276,7 +276,7 @@
         "start_ind_b" : 299,
 		"end_ind_b" : 302,
         "length" : 3,
-        "var_type" : "int",
+        "var_type" : "float",
 		"var_function" : "remove_blank_series"
     },
     "mare_sire_offspring_in_second_average_distance" : {
