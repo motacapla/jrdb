@@ -1,21 +1,18 @@
 import re
 import numpy as np
 import pandas as pd
-import json
+
 from jrdb import load
 
 
 class JrdbDataParser:
     def __init__(self):
         self._config_path = "config/"
-        # self._loader = load.FileLoader()
+        self._loader = load.FileLoader()
 
     def parse(self, text_data, data_type, is_japanese):
         config_json_name = self._config_path + data_type + ".json"
-        # 変更点
-        # config_json = self._loader.load(config_json_name)をやめた
-        with open(config_json_name, 'r', encoding='utf-8') as f:
-            config_json = json.load(f)
+        config_json = self._loader.load(config_json_name)
         converter = JrdbTextConverterIntoDataFrame(text_data, config_json)
         df = converter.convert_text_into_dataframe()
         formater = JrdbDataFrameFormatter(df, config_json)
@@ -42,12 +39,10 @@ class JrdbTextConverterIntoDataFrame:
     def _store_data(self, df):
         for key in self._keys:
             for row in range(len(df)):
-                encode_text = self._text_data[row].encode(encoding="shift_jisx0213")
-                df.at[row, key] = encode_text[
-                    self._config_json[key]["start_ind_b"] : self._config_json[key][
-                        "end_ind_b"
-                    ]
-                ].decode(encoding="shiftjisx0213")
+                text_segment = self._text_data[row][
+                    self._config_json[key]["start_ind_b"] : self._config_json[key]["end_ind_b"]
+                ]
+                df.at[row, key] = text_segment
         return df
 
 

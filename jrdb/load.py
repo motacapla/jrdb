@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import re
 import json
+import chardet
 
 from abc import ABCMeta, abstractmethod 
 
@@ -47,14 +48,23 @@ class IFileLoader(metaclass = ABCMeta):
 class TextLoader(IFileLoader):
     def load_file(self, file_name):
         try:
-            return pd.read_table(file_name, encoding = 'shift_jisx0213', header = None)[0]
+            # Automatically determine the encoding of the file
+            with open(file_name, 'rb') as f:
+                raw_data = f.read()
+                encoding = chardet.detect(raw_data)['encoding']   
+            return pd.read_table(file_name, encoding=encoding, header=None)[0]
         except FileNotFoundError as e:
             print('FileNotFoundError', e)
 
 class JsonLoader(IFileLoader):
     def load_file(self, file_name):
         try:
-            with open(file_name, 'r') as f:
+            # Automatically determine the encoding of the file
+            with open(file_name, 'rb') as f:
+                raw_data = f.read()
+                encoding = chardet.detect(raw_data)['encoding']
+                
+            with open(file_name, 'r', encoding=encoding) as f:
                 return json.load(f)
         except json.JSONDecodeError as e:
             print('JSONDecodeError', e)
