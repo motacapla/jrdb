@@ -1,18 +1,21 @@
 import re
 import numpy as np
 import pandas as pd
-
-from jrdb.jrdb import load
+import json
+from jrdb import load
 
 
 class JrdbDataParser:
     def __init__(self):
-        self._config_path = "jrdb/jrdb/config/"
-        self._loader = load.FileLoader()
+        self._config_path = "config/"
+        # self._loader = load.FileLoader()
 
     def parse(self, text_data, data_type, is_japanese):
         config_json_name = self._config_path + data_type + ".json"
-        config_json = self._loader.load(config_json_name)
+        # 変更点
+        # config_json = self._loader.load(config_json_name)をやめた
+        with open(config_json_name, 'r', encoding='utf-8') as f:
+            config_json = json.load(f)
         converter = JrdbTextConverterIntoDataFrame(text_data, config_json)
         df = converter.convert_text_into_dataframe()
         formater = JrdbDataFrameFormatter(df, config_json)
