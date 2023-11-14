@@ -38,10 +38,12 @@ class JrdbTextConverterIntoDataFrame:
 
     def _store_data(self, df):
         for key in self._keys:
+            # if key == "horse_name":
+            #     import pdb; pdb.set_trace()
             for row in range(len(df)):
-                text_segment = self._text_data[row][
+                text_segment = self._text_data[row].encode('shiftjis')[
                     self._config_json[key]["start_ind_b"] : self._config_json[key]["end_ind_b"]
-                ]
+                ].decode('shiftjis', errors='ignore')
                 df.at[row, key] = text_segment
         return df
 
