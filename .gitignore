@@ -10,4 +10,5 @@ setup.py
 .DS_Store
 /jrdb/.DS_Store
 /data/*
+/jrdb/train_data/*
 *.png
