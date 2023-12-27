@@ -2,12 +2,12 @@ import re
 import numpy as np
 import pandas as pd
 
-from jrdb.jrdb import load
+from jrdb import load
 
 
 class JrdbDataParser:
     def __init__(self):
-        self._config_path = "jrdb/jrdb/config/"
+        self._config_path = "config/"
         self._loader = load.FileLoader()
 
     def parse(self, text_data, data_type, is_japanese):
@@ -38,13 +38,13 @@ class JrdbTextConverterIntoDataFrame:
 
     def _store_data(self, df):
         for key in self._keys:
+            # if key == "horse_name":
+            #     import pdb; pdb.set_trace()
             for row in range(len(df)):
-                encode_text = self._text_data[row].encode(encoding="shift_jisx0213")
-                df.at[row, key] = encode_text[
-                    self._config_json[key]["start_ind_b"] : self._config_json[key][
-                        "end_ind_b"
-                    ]
-                ].decode(encoding="shiftjisx0213")
+                text_segment = self._text_data[row].encode('shiftjis')[
+                    self._config_json[key]["start_ind_b"] : self._config_json[key]["end_ind_b"]
+                ].decode('shiftjis', errors='ignore')
+                df.at[row, key] = text_segment
         return df
 
 

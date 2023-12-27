@@ -9,3 +9,6 @@ setup.py
 /jrdb/__pycache__/*
 .DS_Store
 /jrdb/.DS_Store
+/data/*
+/jrdb/train_data/*
+*.png
